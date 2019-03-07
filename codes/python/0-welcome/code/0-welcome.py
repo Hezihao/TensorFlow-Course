@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 #####################################################
 ########## Welcome to TensorFlow World ##############
 #####################################################
@@ -12,7 +14,7 @@ import os
 
 ######################################
 ######### Necessary Flags ############
-# ####################################
+######################################
 
 log_dir = os.path.dirname(os.path.abspath(__file__)) + '/logs'
 
@@ -25,11 +27,9 @@ welcome = tf.constant('Welcome to TensorFlow world!')
 
 # Run the session
 with tf.Session() as sess:
-    writer = tf.summary.FileWriter(os.path.expanduser(log_dir), sess.graph)
+    #writer = tf.summary.FileWriter(os.path.expanduser(log_dir), sess.graph)
     print("output: ", sess.run(welcome))
 
 # Closing the writer.
-writer.close()
+#writer.close()
 sess.close()
-
-

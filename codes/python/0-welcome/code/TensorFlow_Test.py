@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # This code has been provided by TensorFlow.
 # Please refer to: https://www.tensorflow.org/api_guides/python/test
 

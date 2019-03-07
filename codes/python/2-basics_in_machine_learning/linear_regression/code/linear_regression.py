@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import numpy as np
 import tensorflow as tf
 import xlrd
@@ -6,6 +8,8 @@ import os
 from sklearn.utils import check_random_state
 
 # Generating artificial data.
+# so in this version, the code is not using any .xls file as dataset
+
 n = 50
 XX = np.arange(n)
 rs = check_random_state(0)
@@ -15,7 +19,7 @@ data = np.stack([XX,YY], axis=1)
 #######################
 ## Defining flags #####
 #######################
-tf.app.flags.DEFINE_integer('num_epochs', 50, 'The number of epochs for training the model. Default=50')
+tf.app.flags.DEFINE_integer('num_epochs', 100, 'The number of epochs for training the model. Default=50')
 # Store all elemnts in FLAG structure!
 FLAGS = tf.app.flags.FLAGS
 
@@ -83,24 +87,29 @@ with tf.Session() as sess:
                                  feed_dict={X: data[:,0], Y: data[:,1]})
 
         # Displaying the loss per epoch.
-        print('epoch %d, loss=%f' %(epoch_num+1, loss_value))
-
+        #print('epoch %d, loss=%f' %(epoch_num+1, loss_value))
+        print(epoch_num+1, loss_value)
         # save the values of weight and bias
+        if epoch_num == 50:
+            w50, b50 = sess.run([W,b])
         wcoeff, bias = sess.run([W, b])
-
+    print('After 50 rounds: ', w50, b50)
+    print('After 100 rounds: ', wcoeff, bias)
 
 ###############################
 #### Evaluate and plot ########
 ###############################
 Input_values = data[:,0]
 Labels = data[:,1]
+Prediction_values_50 = data[:,0] * w50 + b50
 Prediction_values = data[:,0] * wcoeff + bias
 
 # # uncomment if plotting is desired!
-# plt.plot(Input_values, Labels, 'ro', label='main')
-# plt.plot(Input_values, Prediction_values, label='Predicted')
+plt.plot(Input_values, Labels, 'ro', label='main')
+plt.plot(Input_values, Prediction_values_50, label='Predicted after 50 rounds')
+plt.plot(Input_values, Prediction_values, label='Predicted')
 
 # # Saving the result.
-# plt.legend()
-# plt.savefig('plot.png')
-# plt.close()
+plt.legend()
+plt.savefig('plot_example.png')
+plt.close()
