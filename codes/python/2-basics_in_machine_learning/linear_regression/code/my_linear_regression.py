@@ -64,20 +64,22 @@ with tf.Session() as sess:
 	train_loss = loss(X, Y)
 	train_op = train(train_loss)
 	#writer = tf.summary.FileWriter(os.path.expanduser(FLAGS.log_dir), sess.graph)
-	for epoch_num in range(FLAGS.num_epochs):
+	#for epoch_num in range(FLAGS.num_epochs):
 		
-		for x, y in data:
-			# to be clarified: what does the name of "loss_value_," mean?
-			#train_op = train(train_loss)
-			loss_value, _ = sess.run([train_loss,train_op], 
-									 feed_dict={X: x, Y: y})
-			#print('epoch %d, loss=%f' %(epoch_num+1, loss_value))
-			#print(epoch_num+1, loss_value)
-			print(x,y,loss_value)
-			w, b = sess.run([W, b])
-		wcoeff, bias = sess.run([W, b])
-	print(w, b)
-	print(wcoeff, bias)
+	for x, y in data:
+		# to be clarified: what does the name of "loss_value_," mean?
+		#train_op = train(train_loss)
+		loss_value, _ = sess.run([train_loss,train_op], 
+								 feed_dict={X: x, Y: y})
+		#print('epoch %d, loss=%f' %(epoch_num+1, loss_value))
+		#print(epoch_num+1, loss_value)
+		print(x,y,loss_value)
+		#if x == 25.0 :
+		#	w, b = sess.run([W, b])
+	wf, bf = sess.run([W, b])
+	#print(w, b)
+	print(wf, bf)
+	#print(data.shape)
 
 #writer.close()
 #sess.close()
@@ -86,12 +88,12 @@ with tf.Session() as sess:
 ###############################
 Input_values = data[:,0]
 Labels = data[:,1]
-Prediction_values = data[:,0] * w + b
-Prediction_values_final = data[:,0] * wcoeff + bias
+#Prediction_values = data[:,0] * w + b
+Prediction_values_final = data[:,0] * wf + bf
 
 # uncomment if plotting is desired!
-plt.plot(Input_values, Labels, 'ro', label='main')
-plt.plot(Input_values, Prediction_values, label='Predicted')
+plt.plot(Input_values, Labels, 'go', label='main')
+#plt.plot(Input_values, Prediction_values, label='Predicted')
 plt.plot(Input_values, Prediction_values_final, label='Final Prediction')
 
 # # Saving the result.
